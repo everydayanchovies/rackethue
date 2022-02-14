@@ -95,7 +95,7 @@
   (lambda ()
     (letrec ({a (lambda ()
                   (cond
-                    [(all-lights-on?) (sleep 1)
+                    [(all-lights-on?) (sleep 5)
                                       (a)]
                     [else (all-lights-off)
                           (displayln "turning off")
