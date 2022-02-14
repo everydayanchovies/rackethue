@@ -1,5 +1,3 @@
-#lang racket
-
 (require net/http-easy)
 (require json)
 (require dotenv)
