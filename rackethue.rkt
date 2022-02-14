@@ -98,7 +98,6 @@
     (letrec ({a (lambda ()
                   (cond
                     [(all-lights-on?) (sleep 2)
-                                      (display "on")
                                       (a)]
                     [else (all-lights-off)
                           (displayln "turning off")
@@ -106,7 +105,6 @@
              {b (lambda ()
                   (cond
                     [(all-lights-off?) (sleep 2)
-                                       (display "off")
                                        (b)]
                     [else (all-lights-on)
                           (displayln "turning on")
