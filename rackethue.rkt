@@ -20,24 +20,23 @@
     (put (~a base-url endpoint)
          #:data value)))
 
-
 (define lights
   (lambda ()
     (req/get "lights")))
 
 (define light-on?
-  (lambda (lights id)
+  (lambda (l id)
     (hash-ref
      (hash-ref
-      (hash-ref lights id)
+      (hash-ref l id)
       'state)
      'on)))
 
 (define light-reachable?
-  (lambda (lights id)
+  (lambda (l id)
     (hash-ref
      (hash-ref
-      (hash-ref lights id)
+      (hash-ref l id)
       'state)
      'reachable)))
 
@@ -79,6 +78,7 @@
                     (cond
                       [(null? lid) '()]
                       [else (light-on (car lid))
+			    (sleep 0.7)
                             (alo (cdr lid))]))})
       (alo light-ids))))
 
@@ -88,6 +88,7 @@
                     (cond
                       [(null? lid) '()]
                       [else (light-off (car lid))
+			    (sleep 1.8)
                             (alo (cdr lid))]))})
       (alo light-ids))))
 
@@ -95,14 +96,14 @@
   (lambda ()
     (letrec ({a (lambda ()
                   (cond
-                    [(all-lights-on?) (sleep 5)
+                    [(all-lights-on?) (sleep 10)
                                       (a)]
                     [else (all-lights-off)
                           (displayln "turning off")
                           (b)]))}
              {b (lambda ()
                   (cond
-                    [(all-lights-off?) (sleep 1)
+                    [(all-lights-off?) (sleep 5)
                                        (b)]
                     [else (all-lights-on)
                           (displayln "turning on")
