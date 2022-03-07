@@ -88,7 +88,7 @@
                     (cond
                       [(null? lid) '()]
                       [else (light-off (car lid))
-			    (sleep 1.8)
+			    (sleep 1.0)
                             (alo (cdr lid))]))})
       (alo light-ids))))
 
@@ -103,7 +103,7 @@
                           (b)]))}
              {b (lambda ()
                   (cond
-                    [(all-lights-off?) (sleep 5)
+                    [(all-lights-off?) (sleep 2)
                                        (b)]
                     [else (all-lights-on)
                           (displayln "turning on")
