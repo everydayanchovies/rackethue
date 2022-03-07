@@ -1,3 +1,5 @@
+#lang racket
+
 (require net/http-easy)
 (require json)
 (require dotenv)
@@ -6,7 +8,7 @@
 
 (define base-url (~a "http://192.168.1.186/api/" (getenv "HUE_SECRET") "/"))
 
-(define light-ids '(|1| |2| |5| |7| |8|))
+(define light-ids '(|1| |2| |3| |5| |7| |8|))
 
 (define req/get
   (lambda (endpoint)
