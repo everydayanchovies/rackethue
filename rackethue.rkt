@@ -115,5 +115,5 @@
                              ([exn:fail? (lambda (v)
                                            (displayln v)
                                            (subscribe))]))
-                           (a))}
+                           (a))})
       (subscribe))))
