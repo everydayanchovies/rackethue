@@ -80,7 +80,7 @@
                     (cond
                       [(null? lid) '()]
                       [else (light-on (car lid))
-			    (sleep 0.7)
+                            (sleep 0.7)
                             (alo (cdr lid))]))})
       (alo light-ids))))
 
@@ -90,7 +90,7 @@
                     (cond
                       [(null? lid) '()]
                       [else (light-off (car lid))
-			    (sleep 1.0)
+                            (sleep 1.0)
                             (alo (cdr lid))]))})
       (alo light-ids))))
 
@@ -109,5 +109,11 @@
                                        (b)]
                     [else (all-lights-on)
                           (displayln "turning on")
-                          (a)]))})
-      (a))))
+                          (a)]))}
+              {subscribe (lambda ()
+                           (with-handlers
+                             ([exn:fail? (lambda (v)
+                                           (displayln v)
+                                           (subscribe))]))
+                           (a))}
+      (subscribe))))
