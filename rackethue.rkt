@@ -114,6 +114,6 @@
                            (with-handlers
                              ([exn:fail? (lambda (v)
                                            (displayln v)
-                                           (subscribe))]))
-                           (a))})
+                                           (subscribe))])
+                             (a)))})
       (subscribe))))
