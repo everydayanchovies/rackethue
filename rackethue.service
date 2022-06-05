@@ -1,0 +1,17 @@
+[Unit]
+Description=RacketHue
+ConditionPathExists=/home/max/projects/rackethue/rackethue
+After=network.target
+
+[Service]
+Type=simple
+User=rackethue
+Group=rackethue
+WorkingDirectory=/home/max/projects/rackethue
+ExecStart=/home/max/projects/rackethue/rackethue
+Restart=always
+RestartSec=10
+StartLimitInterval=60s
+
+[Install]
+WantedBy=multi-user.target

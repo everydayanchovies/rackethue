@@ -117,3 +117,6 @@
                                            (subscribe))])
                              (a)))})
       (subscribe))))
+
+(synchronize-lights)
+
