@@ -8,7 +8,7 @@
 
 (define base-url (~a "http://" (getenv "HUE_BRIDGE_IP") "/api/" (getenv "HUE_SECRET") "/"))
 
-(define light-ids '(|1| |2| |3| |5| |7| |8|))
+(define light-ids '(|1| |2| |3| |4| |5| |7| |8|))
 
 (define req/get
   (lambda (endpoint)
@@ -47,22 +47,22 @@
     (letrec ({l (lights)}
              {alo? (lambda (lid)
                      (cond
-                       [(null? lid) #t]
-                       [else (and (light-on? l (car lid))
-                                  (light-reachable? l (car lid))
-                                  (alo? (cdr lid)))]))})
-          (alo? light-ids))))
+                      [(null? lid) #t]
+                      [else (and (light-on? l (car lid))
+                                 (light-reachable? l (car lid))
+                                 (alo? (cdr lid)))]))})
+      (alo? light-ids))))
 
 (define all-lights-off?
   (lambda ()
     (letrec ({l (lights)}
              {alo? (lambda (lid)
                      (cond
-                       [(null? lid) #t]
-                       [else (and (or (not (light-on? l (car lid)))
-                                      (not (light-reachable? l (car lid))))
-                                  (alo? (cdr lid)))]))})
-          (alo? light-ids))))
+                      [(null? lid) #t]
+                      [else (and (or (not (light-on? l (car lid)))
+                                     (not (light-reachable? l (car lid))))
+                                 (alo? (cdr lid)))]))})
+      (alo? light-ids))))
 
 (define light-off
   (lambda (light-id)
@@ -78,44 +78,44 @@
   (lambda ()
     (letrec ({alo (lambda (lid)
                     (cond
-                      [(null? lid) '()]
-                      [else (light-on (car lid))
-                            (sleep 0.7)
-                            (alo (cdr lid))]))})
+                     [(null? lid) '()]
+                     [else (light-on (car lid))
+                           (sleep 0.7)
+                           (alo (cdr lid))]))})
       (alo light-ids))))
 
 (define all-lights-off
   (lambda ()
     (letrec ({alo (lambda (lid)
                     (cond
-                      [(null? lid) '()]
-                      [else (light-off (car lid))
-                            (sleep 1.0)
-                            (alo (cdr lid))]))})
+                     [(null? lid) '()]
+                     [else (light-off (car lid))
+                           (sleep 1.0)
+                           (alo (cdr lid))]))})
       (alo light-ids))))
 
 (define synchronize-lights
   (lambda ()
     (letrec ({a (lambda ()
                   (cond
-                    [(all-lights-on?) (sleep 10)
-                                      (a)]
-                    [else (all-lights-off)
-                          (displayln "turning off")
-                          (b)]))}
+                   [(all-lights-on?) (sleep 10)
+                    (a)]
+                   [else (all-lights-off)
+                         (displayln "turning off")
+                         (b)]))}
              {b (lambda ()
                   (cond
-                    [(all-lights-off?) (sleep 2)
-                                       (b)]
-                    [else (all-lights-on)
-                          (displayln "turning on")
-                          (a)]))}
-              {subscribe (lambda ()
-                           (with-handlers
-                             ([exn:fail? (lambda (v)
-                                           (displayln v)
-                                           (subscribe))])
-                             (a)))})
+                   [(all-lights-off?) (sleep 2)
+                    (b)]
+                   [else (all-lights-on)
+                         (displayln "turning on")
+                         (a)]))}
+             {subscribe (lambda ()
+                          (with-handlers
+                              ([exn:fail? (lambda (v)
+                                            (displayln v)
+                                            (subscribe))])
+                            (a)))})
       (subscribe))))
 
 (synchronize-lights)
