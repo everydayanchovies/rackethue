@@ -1,7 +1,7 @@
 [Unit]
 Description=RacketHue
 ConditionPathExists=/home/max/projects/rackethue/rackethue
-After=network.target
+After=network-online.target
 
 [Service]
 Type=simple
@@ -9,6 +9,7 @@ User=rackethue
 Group=rackethue
 WorkingDirectory=/home/max/projects/rackethue
 ExecStart=/home/max/projects/rackethue/rackethue
+TimeoutStopSec=5
 Restart=always
 RestartSec=10
 StartLimitInterval=60s

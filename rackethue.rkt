@@ -8,7 +8,9 @@
 
 (define base-url (~a "http://" (getenv "HUE_BRIDGE_IP") "/api/" (getenv "HUE_SECRET") "/"))
 
-(define light-ids '(|1| |2| |3| |4| |5| |7| |8|))
+;; some lights are glitchy (non-responsive) so only check a few
+(define light-ids-check '(|1| |7|))
+(define light-ids '(|1| |2| |3| |4| |5| |7| |8| |9|))
 
 (define req/get
   (lambda (endpoint)
@@ -51,7 +53,7 @@
                       [else (and (light-on? l (car lid))
                                  (light-reachable? l (car lid))
                                  (alo? (cdr lid)))]))})
-      (alo? light-ids))))
+      (alo? light-ids-check))))
 
 (define all-lights-off?
   (lambda ()
@@ -62,7 +64,7 @@
                       [else (and (or (not (light-on? l (car lid)))
                                      (not (light-reachable? l (car lid))))
                                  (alo? (cdr lid)))]))})
-      (alo? light-ids))))
+      (alo? light-ids-check))))
 
 (define light-off
   (lambda (light-id)
@@ -119,4 +121,3 @@
       (subscribe))))
 
 (synchronize-lights)
-
